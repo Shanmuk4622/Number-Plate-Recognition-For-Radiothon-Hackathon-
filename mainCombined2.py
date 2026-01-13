@@ -185,10 +185,22 @@ def alpr_realtime(
                 (tw, th), _ = cv2.getTextSize(plate_text, cv2.FONT_HERSHEY_SIMPLEX, 1.2, 3)
                 text_x = int((cx1 + cx2 - tw) / 2)
                 text_y = max(0, cy1 - 20)
-                cv2.putText(frame, plate_text, (text_x, text_y),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 255, 255), 3)
+                # Measure text size
+                (text_w, text_h), _ = cv2.getTextSize(plate_text, cv2.FONT_HERSHEY_SIMPLEX, 1.2, 2)
+
+                # Define background box
+                bg_x1 = text_x - 10
+                bg_y1 = text_y - text_h - 10
+                bg_x2 = text_x + text_w + 10
+                bg_y2 = text_y + 10
+
+                # Draw white background
+                cv2.rectangle(frame, (bg_x1, bg_y1), (bg_x2, bg_y2), (255, 255, 255), -1)
+
+                # Draw black text on top
                 cv2.putText(frame, plate_text, (text_x, text_y),
                             cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 0), 2)
+
 
         # 5) Write and display the same frame (default dimensions)
         out.write(frame)
