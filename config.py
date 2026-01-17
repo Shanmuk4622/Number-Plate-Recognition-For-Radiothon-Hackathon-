@@ -9,7 +9,7 @@ Modify these values to customize the system behavior.
 # =============================================================================
 
 # Path to input video file
-VIDEO_PATH = "Videos/sample6.mp4"
+VIDEO_PATH = "Videos/sample.mp4"
 
 # Path to save output video with annotations
 OUTPUT_PATH = "Videos/out.avi"
