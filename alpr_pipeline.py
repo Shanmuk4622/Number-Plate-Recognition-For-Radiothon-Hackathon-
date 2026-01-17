@@ -443,9 +443,46 @@ def alpr_realtime(
                 cv2.putText(frame, plate_text, (text_x, text_y),
                             cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 0), 2)
 
-        # --- STEP 6: Write and Display ---
+
+        # --- STEP 6: UI Overlay: Car/Plate Info ---
+        # Count unique car IDs and collect visible plate numbers
+        car_ids = set()
+        plate_texts = []
+        for tr in tracks:
+            tid = int(tr[4])
+            car_ids.add(tid)
+            best = plate_smoother.get_best_text(tid)
+            plate_text = best['text']
+            if plate_text and plate_text != '0' and plate_text not in plate_texts:
+                plate_texts.append(plate_text)
+
+        num_cars = len(car_ids)
+        num_plates = len(plate_texts)
+
+        # Prepare info text
+        info_lines = [
+            f"Cars detected: {num_cars}",
+            f"Plates detected: {num_plates}"
+        ]
+        if num_plates > 0:
+            info_lines.append("Plates: " + ", ".join(plate_texts))
+
+        # Draw semi-transparent rectangle
+        overlay = frame.copy()
+        box_w = 420
+        box_h = 30 + 25 * len(info_lines)
+        cv2.rectangle(overlay, (10, 10), (10 + box_w, 10 + box_h), (40, 40, 40), -1)
+        alpha = 0.5
+        frame = cv2.addWeighted(overlay, alpha, frame, 1 - alpha, 0)
+
+        # Draw info text
+        for i, line in enumerate(info_lines):
+            y = 35 + i * 25
+            cv2.putText(frame, line, (25, y), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 2)
+
+        # --- STEP 7: Write and Display ---
         out.write(frame)
-        
+
         if show:
             cv2.imshow("ALPR-Realtime", frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
