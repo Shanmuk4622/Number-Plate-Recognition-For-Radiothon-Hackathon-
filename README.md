@@ -7,9 +7,12 @@ Our implementation uses a **real-time, single-loop pipeline** that integrates ob
 
 ## Demo
 
-".\env\Scripts\activate"
 
-https://github.com/Muhammad-Zeerak-Khan/Automatic-License-Plate-Recognition-using-YOLOv8/assets/79400407/1af57131-3ada-470a-b798-95fff00254e6
+**Output Video:**
+[Watch on YouTube](https://youtu.be/sZrgAAMNXDg)
+
+**Sample Output Image:**
+![ALPR Output Example](Picks/image.png)
 
 ## 🧱 Core Components
 
@@ -211,6 +214,11 @@ Or download the sample video from [this link](https://drive.google.com/file/d/1J
 python run_alpr.py
 ```
 
+**IMPORTANT:**
+- **Always run the system using `run_alpr.py`.**
+- Do **NOT** run `alpr_pipeline.py` directly; it is a library/module, not a standalone script.
+- `run_alpr.py` handles configuration, validation, and launches the pipeline with all required parameters.
+
 **What happens:**
 - ✅ Validates configuration and checks all files exist
 - ✅ Loads YOLOv8 models for vehicle and license plate detection
@@ -234,6 +242,12 @@ SHOW_LIVE_VIDEO = True                # Display window
 **Controls:**
 - Press `q` to quit the video window early
 - Output video saves automatically when processing completes
+
+---
+
+#### ⚠️ Do NOT run `alpr_pipeline.py` directly
+
+`alpr_pipeline.py` is the core pipeline module and is **not** intended to be executed as a standalone script. Always use `run_alpr.py` as your entry point.
 
 ---
 

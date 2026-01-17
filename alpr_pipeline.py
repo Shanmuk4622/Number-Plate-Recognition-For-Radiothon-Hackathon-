@@ -313,22 +313,22 @@ def alpr_realtime(
     if not cap.isOpened():
         raise RuntimeError(f"❌ Cannot open video: {video_path}")
 
+
     # Get video properties
-    fps = int(cap.get(cv2.CAP_PROP_FPS)) or 30
-    frame_step = max(1, int(fps / target_fps))
+    input_fps = int(cap.get(cv2.CAP_PROP_FPS)) or 30
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    frame_step = max(1, int(input_fps / target_fps))
 
-    print(f"📊 Video Info: {width}x{height} @ {fps} FPS ({total_frames} frames)")
+    print(f"📊 Video Info: {width}x{height} @ {input_fps} FPS ({total_frames} frames)")
     print(f"⏭️  Frame Skip: Processing every {frame_step} frame(s)")
 
-    # Setup video writer
+    # Setup video writer to match processed FPS
     fourcc = cv2.VideoWriter_fourcc(*codec)
-    out = cv2.VideoWriter(save_path, fourcc, fps, (width, height))
+    out = cv2.VideoWriter(save_path, fourcc, target_fps, (width, height))
     if not out.isOpened():
         raise RuntimeError("❌ VideoWriter failed. Try a different codec/container.")
-    
     print(f"💾 Output: {save_path}")
 
     # Create display window
@@ -356,7 +356,6 @@ def alpr_realtime(
 
         # Frame skipping for performance
         if frame_idx % frame_step != 0:
-            out.write(frame)  # Write original frame to maintain video continuity
             continue
 
         processed_count += 1
