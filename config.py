@@ -84,7 +84,7 @@ WINDOW_TITLE = "ALPR-Realtime"
 
 # Use GPU for OCR (EasyOCR)
 # Set to True if you have CUDA-enabled GPU
-OCR_GPU = False
+OCR_GPU = True
 
 # OCR language
 OCR_LANGUAGE = ['en']

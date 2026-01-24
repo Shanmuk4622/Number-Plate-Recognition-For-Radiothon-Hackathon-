@@ -23,8 +23,13 @@ from sort.sort import Sort
 # OCR INITIALIZATION AND CHARACTER MAPPING
 # =============================================================================
 
-# Initialize the OCR reader
-reader = easyocr.Reader(['en'], gpu=False)
+# Initialize the OCR reader (GPU setting imported from config)
+try:
+    from config import OCR_GPU
+except ImportError:
+    OCR_GPU = False
+
+reader = easyocr.Reader(['en'], gpu=OCR_GPU)
 
 # Mapping dictionaries for character conversion (license plate format correction)
 dict_char_to_int = {
