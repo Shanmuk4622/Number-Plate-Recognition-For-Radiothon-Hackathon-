@@ -424,9 +424,6 @@ codec="XVID"                       # Video codec (XVID or mp4v)
 - Improve lighting conditions in source video
 - Use higher resolution plates
 
-## 📝 License
-
-See [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
